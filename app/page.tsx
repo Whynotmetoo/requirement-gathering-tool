@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { Questions } from '../constants/Questions'
+
 type Question = {
   id: number;
   type: string;
@@ -24,9 +26,7 @@ type Question = {
 };
 
 export default function FormDesigner() {
-  const [questions, setQuestions] = useState<Question[]>([
-    { id: 1, type: "text", question: "", options: [] }
-  ]);
+  const [questions, setQuestions] = useState<Question[]>(Questions);
 
   const addQuestion = () => {
     const newId = questions.length + 1;
@@ -66,6 +66,7 @@ export default function FormDesigner() {
 
   const saveForm = () => {
     localStorage.setItem("formQuestions", JSON.stringify(questions));
+    console.log(questions)
     toast.success("Form saved successfully!");
   };
 

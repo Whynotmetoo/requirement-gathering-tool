@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -124,7 +123,7 @@ export default function RequirementsForm() {
           <div className="space-y-6">
             {questions.map((q) => (
               <div key={q.id} className="space-y-2">
-                <Label>{q.question}</Label>
+                <Label>{q.question}{q.type === 'multiple'? '(Select all that apply)' : ''}</Label>
                 {renderQuestion(q)}
               </div>
             ))}
