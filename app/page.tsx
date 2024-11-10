@@ -30,7 +30,7 @@ const DESIGN_RESOURCES = [
   { title: "Clinical Guidelines", url: "#", icon: "📋" },
   { title: "Question Templates", url: "#", icon: "📝" },
   { title: "Best Practices", url: "#", icon: "✨" },
-  { title: "HIPAA Compliance Guide", url: "#", icon: "🔒" }
+  { title: "PHIPA Compliance Guide", url: "#", icon: "🔒" }
 ];
 
 const QUICK_LINKS = [
@@ -43,7 +43,7 @@ const QUICK_LINKS = [
 // Add regulatory standards and guidelines
 const REGULATORY_STANDARDS = [
   { 
-    title: "HIPAA Privacy Rules",
+    title: "PHIPA Privacy Rules",
     url: "#",
     icon: "🔒",
     description: "Latest privacy regulations and compliance requirements"

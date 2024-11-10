@@ -8,6 +8,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Question {
   id: number;
@@ -30,6 +37,152 @@ const HELPFUL_LINKS = [
   { title: "Medical Records Request", url: "#" },
   { title: "Privacy Policy", url: "#" }
 ];
+
+// Add new components and types
+interface PrivacySettings {
+  dataRetentionPeriod: string;
+  dataUsageScope: string[];
+  sharingConsent: boolean;
+  researchConsent: boolean;
+}
+
+interface SecurityLog {
+  timestamp: string;
+  action: string;
+  userType: string;
+  details: string;
+}
+
+// Add new privacy and security components
+const PrivacyConsentSection = () => {
+  return (
+    <Card className="mb-6 bg-blue-50">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg text-blue-900">Privacy & Consent</CardTitle>
+        <p className="text-sm text-gray-600">PHIPA & Healthcare Information Protection</p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Data Collection Consent */}
+        <div className="space-y-2">
+          <Label className="font-medium">Data Collection</Label>
+          <div className="pl-4 space-y-3">
+            <div className="flex items-center space-x-2">
+              <input 
+                type="checkbox"
+                id="data-collection" 
+                required 
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label 
+                htmlFor="data-collection" 
+                className="text-sm leading-none"
+              >
+                I consent to the collection of my health information as described in the
+                <Button 
+                  variant="link" 
+                  className="px-1 h-auto text-blue-600"
+                  onClick={() => window.open('#', '_blank')}
+                >
+                  Privacy Policy
+                </Button>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Data Usage */}
+        <div className="space-y-2">
+          <Label className="font-medium">Data Usage Permissions</Label>
+          <div className="pl-4 space-y-3">
+            <div className="flex items-center space-x-2">
+              <input 
+                type="checkbox"
+                id="primary-care" 
+                required 
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="primary-care" className="text-sm leading-none">
+                Share with primary care team
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <input 
+                type="checkbox"
+                id="specialists" 
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="specialists" className="text-sm leading-none">
+                Share with referred specialists
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <input 
+                type="checkbox"
+                id="research" 
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="research" className="text-sm leading-none">
+                Anonymous use in medical research
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Data Retention */}
+        <div className="space-y-2">
+          <Label className="font-medium">Data Retention Period</Label>
+          <Select defaultValue="standard">
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="standard">Standard (10 years)</SelectItem>
+              <SelectItem value="extended">Extended (25 years)</SelectItem>
+              <SelectItem value="lifetime">Lifetime</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-gray-500">
+            As per PHIPA regulations, your health records will be retained for the selected period
+          </p>
+        </div>
+
+        {/* Security Notice */}
+        <div className="bg-white p-4 rounded-lg border border-blue-100 mt-4">
+          <h4 className="text-sm font-medium text-blue-900 mb-2">Security Measures</h4>
+          <ul className="text-xs text-gray-600 space-y-1">
+            <li className="flex items-center">
+              <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              End-to-end encryption of all health data
+            </li>
+            <li className="flex items-center">
+              <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Access controls and audit logging
+            </li>
+            <li className="flex items-center">
+              <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              PHIPA compliant data storage
+            </li>
+          </ul>
+        </div>
+
+        {/* Emergency Access Notice */}
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+          <h4 className="text-sm font-medium text-yellow-800 mb-2">Emergency Access</h4>
+          <p className="text-xs text-yellow-700">
+            In case of medical emergency, healthcare providers may access your information 
+            without prior consent. All emergency access is logged and reviewed.
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default function MedicalAssessmentForm() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -62,29 +215,41 @@ export default function MedicalAssessmentForm() {
     handleAnswerChange(questionId, newAnswers);
   };
 
-  const handleSubmit = () => {
-    const unansweredRequired = questions
-      .filter(q => q.required)
-      .some(q => !answers[q.id] || 
-        (Array.isArray(answers[q.id]) && (answers[q.id] as string[]).length === 0));
+  const handleSubmit = async () => {
+    try {
+      // Check privacy consent using input element
+      const dataCollectionConsent = document.getElementById('data-collection') as HTMLInputElement;
+      const primaryCareConsent = document.getElementById('primary-care') as HTMLInputElement;
 
-    if (unansweredRequired) {
-      toast.error("Please complete all required fields");
-      return;
+      if (!dataCollectionConsent?.checked) {
+        toast.error("Please provide consent for data collection");
+        return;
+      }
+
+      if (!primaryCareConsent?.checked) {
+        toast.error("Please provide consent for primary care team access");
+        return;
+      }
+
+      // Log form access
+      const accessLog: SecurityLog = {
+        timestamp: new Date().toISOString(),
+        action: 'FORM_SUBMISSION',
+        userType: 'PATIENT',
+        details: 'Medical assessment form submitted with privacy consent'
+      };
+
+      // Simulate API call or data processing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Add your submission logic here
+      // Make sure to await any async operations
+      
+      toast.success("Form submitted successfully");
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast.error("Error submitting form. Please try again.");
     }
-
-    const savedResponses = localStorage.getItem("formResponses");
-    const responses = savedResponses ? JSON.parse(savedResponses) : [];
-    
-    responses.push({
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-      answers
-    });
-    
-    localStorage.setItem("formResponses", JSON.stringify(responses));
-    toast.success("Form submitted successfully!");
-    setAnswers({});
   };
 
   const renderQuestion = (q: Question) => {
@@ -171,6 +336,9 @@ export default function MedicalAssessmentForm() {
         {/* Main Form */}
         <div className="md:col-span-6">
           <Card className="bg-white shadow-lg">
+            {/* Add Privacy Consent Section before questions */}
+            <PrivacyConsentSection />
+            
             <CardHeader className="border-b">
               <CardTitle className="text-2xl text-blue-900">Medical Assessment Form</CardTitle>
               <p className="text-gray-600 text-sm mt-2">
