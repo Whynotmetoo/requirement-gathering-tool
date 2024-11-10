@@ -14,9 +14,11 @@ interface Question {
   type: string;
   question: string;
   options: string[];
+  required?: boolean;
+  category?: string;
 }
 
-export default function RequirementsForm() {
+export default function MedicalAssessmentForm() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
 
@@ -48,6 +50,16 @@ export default function RequirementsForm() {
   };
 
   const handleSubmit = () => {
+    const unansweredRequired = questions
+      .filter(q => q.required)
+      .some(q => !answers[q.id] || 
+        (Array.isArray(answers[q.id]) && (answers[q.id] as string[]).length === 0));
+
+    if (unansweredRequired) {
+      toast.error("Please complete all required fields");
+      return;
+    }
+
     const savedResponses = localStorage.getItem("formResponses");
     const responses = savedResponses ? JSON.parse(savedResponses) : [];
     
@@ -115,28 +127,38 @@ export default function RequirementsForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Requirements Gathering Form</CardTitle>
+      <Card className="bg-white shadow-lg">
+        <CardHeader className="border-b">
+          <CardTitle className="text-2xl text-blue-900">Medical Assessment Form</CardTitle>
+          <p className="text-gray-600 text-sm mt-2">
+            Please complete all required fields marked with an asterisk (*)
+          </p>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
+          <div className="space-y-8">
             {questions.map((q) => (
-              <div key={q.id} className="space-y-2">
-                <Label>{q.question}{q.type === 'multiple'? '(Select all that apply)' : ''}</Label>
+              <div key={q.id} className="space-y-3">
+                <Label className="text-gray-700 font-medium">
+                  {q.question}
+                  {q.required && <span className="text-red-500 ml-1">*</span>}
+                  {q.type === 'multiple' && ' (Select all that apply)'}
+                </Label>
                 {renderQuestion(q)}
               </div>
             ))}
             
             {questions.length > 0 && (
-              <Button onClick={handleSubmit} className="w-full">
-                Submit
+              <Button 
+                onClick={handleSubmit} 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Submit Assessment
               </Button>
             )}
             
             {questions.length === 0 && (
-              <p className="text-center text-muted-foreground">
-                No questions have been added to the form yet. Please use the Form Designer to create questions.
+              <p className="text-center text-gray-500">
+                No assessment questions are currently available. Please contact your healthcare administrator.
               </p>
             )}
           </div>
