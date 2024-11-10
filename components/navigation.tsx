@@ -34,7 +34,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <span className="text-xl font-bold">Requirements Tool</span>
+            <span className="text-xl font-bold">Requirements Tool - HealthConnect Insights</span>
           </div>
           <div className="flex space-x-8">
             {navigation.map((item) => (
