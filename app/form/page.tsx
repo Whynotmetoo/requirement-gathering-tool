@@ -215,8 +215,18 @@ export default function MedicalAssessmentForm() {
     handleAnswerChange(questionId, newAnswers);
   };
 
+
   const handleSubmit = async () => {
     try {
+      const unansweredRequired = questions
+      .filter(q => q.required)
+      .some(q => !answers[q.id] || 
+        (Array.isArray(answers[q.id]) && (answers[q.id] as string[]).length === 0));
+      if (unansweredRequired) {
+        toast.error("Please complete all required fields");
+        return;
+      }
+
       // Check privacy consent using input element
       const dataCollectionConsent = document.getElementById('data-collection') as HTMLInputElement;
       const primaryCareConsent = document.getElementById('primary-care') as HTMLInputElement;
@@ -239,8 +249,18 @@ export default function MedicalAssessmentForm() {
         details: 'Medical assessment form submitted with privacy consent'
       };
 
-      // Simulate API call or data processing
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const savedResponses = localStorage.getItem("formResponses");
+      const responses = savedResponses ? JSON.parse(savedResponses) : [];
+      
+      responses.push({
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        answers
+      });
+      
+      localStorage.setItem("formResponses", JSON.stringify(responses));
+      toast.success("Form submitted successfully!");
+      // setAnswers({});
 
       // Add your submission logic here
       // Make sure to await any async operations
