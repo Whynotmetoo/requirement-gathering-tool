@@ -2,8 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
-import Navigation from '@/components/navigation';
+import { GlobalStateProvider } from '@/lib/userContext'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,11 +25,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navigation />
-          <main className="container mx-auto px-4 py-6">
+          <GlobalStateProvider>
             {children}
-          </main>
-          <Toaster />
+          </GlobalStateProvider>
         </ThemeProvider>
       </body>
     </html>

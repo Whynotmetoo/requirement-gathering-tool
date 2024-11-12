@@ -1,0 +1,3 @@
+export enum QUESTION_TYPE {
+    MULTICHOICE = "MULTICHOICE"
+}

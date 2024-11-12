@@ -259,8 +259,6 @@ export default function MedicalAssessmentForm() {
       });
       
       localStorage.setItem("formResponses", JSON.stringify(responses));
-      toast.success("Form submitted successfully!");
-      // setAnswers({});
 
       // Add your submission logic here
       // Make sure to await any async operations
